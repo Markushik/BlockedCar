@@ -61,7 +61,10 @@ multidict==6.1.0
     # via aiohttp
     # via yarl
 nats-py==2.9.0
+    # via blockedcar
     # via faststream
+ormsgpack==1.7.0
+    # via blockedcar
 propcache==0.2.1
     # via aiohttp
     # via yarl

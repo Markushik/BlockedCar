@@ -13,6 +13,8 @@ dependencies = [
     "adaptix>=3.0.0b9",
     "sqlalchemy>=2.0.37",
     "dynaconf>=3.2.7",
+    "ormsgpack>=1.7.0",
+    "nats-py>=2.9.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
@@ -23,7 +25,10 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = []
+dev-dependencies = [
+    "ruff>=0.9.3",
+    "usort>=1.0.8.post1",
+]
 
 [tool.rye.scripts]
 start = "python -m src.blockedcar"

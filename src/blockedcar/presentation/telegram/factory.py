@@ -1,15 +1,20 @@
 from typing import AsyncIterable
 
 from aiogram import Bot, Dispatcher
-from aiogram.fsm.storage.base import BaseStorage
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.base import BaseStorage
 from aiogram_dialog import setup_dialogs
 from dishka import AsyncContainer, provide, Provider, Scope
 from dishka.integrations.aiogram import setup_dishka
 
-from blockedcar.main.configuration.schemas import BotConfig, NatsConfig
-from blockedcar.presentation.telegram.dialogs.main_menu.dialog import main_menu
-from blockedcar.presentation.telegram.handlers.user import setup
+from nats.js import JetStreamContext
+
+from blockedcar.adapters.fsm.storage.nats import NatsBucketManager
+
+from blockedcar.main.configuration.schemas import BotConfig
+from blockedcar.presentation.telegram.dialogs import get_dialogs
+from blockedcar.presentation.telegram.handlers import get_handlers
+
 
 class BotProvider(Provider):
     @provide(scope=Scope.APP)
@@ -22,19 +27,21 @@ class DispatcherProvider(Provider):
     scope = Scope.APP
 
     @provide
+    def create_storage(
+        self, jetstream: JetStreamContext, bucket_manager: NatsBucketManager
+    ) -> BaseStorage:
+        return MemoryStorage()
+
+    @provide
     def create_dispatcher(
         self, container: AsyncContainer, storage: BaseStorage
     ) -> Dispatcher:
         dispatcher = Dispatcher(storage=storage)
 
-        dispatcher.include_routers(main_menu())
-        dispatcher.include_routers(setup())
+        dispatcher.include_routers(*get_handlers(), *get_dialogs())
 
         setup_dishka(container=container, router=dispatcher)
         setup_dialogs(dispatcher)
 
         return dispatcher
 
-    @provide
-    def create_storage(self, config: NatsConfig) -> BaseStorage:
-        return MemoryStorage()

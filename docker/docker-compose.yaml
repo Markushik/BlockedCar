@@ -5,3 +5,6 @@ services:
     ports: 
       - "4222:4222"
     restart: on-failure
+    command:
+      - '--jetstream'
+      - '--store_dir=/var/lib/nats/data'

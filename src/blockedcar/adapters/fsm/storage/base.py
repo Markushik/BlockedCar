@@ -32,7 +32,7 @@ class DefaultKeyBuilder(KeyBuilder):
         self,
         *,
         prefix: str = "fsm",
-        separator: str = ":",
+        separator: str = "_",
         with_bot_id: bool = False,
         with_business_connection_id: bool = False,
         with_destiny: bool = False,

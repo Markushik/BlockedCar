@@ -3,6 +3,7 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
+from nats.aio.client import Client
 
 from blockedcar.main.di.setup import setup_dishka
 

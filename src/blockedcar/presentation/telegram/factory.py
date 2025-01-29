@@ -1,8 +1,8 @@
 from typing import AsyncIterable
 
 from aiogram import Bot, Dispatcher
-from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.base import BaseStorage
+from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram_dialog import setup_dialogs
 from dishka import AsyncContainer, provide, Provider, Scope
 from dishka.integrations.aiogram import setup_dishka
@@ -44,4 +44,3 @@ class DispatcherProvider(Provider):
         setup_dialogs(dispatcher)
 
         return dispatcher
-

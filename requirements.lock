@@ -89,3 +89,5 @@ typing-extensions==4.12.2
     # via sqlalchemy
 yarl==1.18.3
     # via aiohttp
+zstd==1.5.6.2
+    # via blockedcar

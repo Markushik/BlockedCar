@@ -109,3 +109,5 @@ typing-extensions==4.12.2
 usort==1.0.8.post1
 yarl==1.18.3
     # via aiohttp
+zstd==1.5.6.2
+    # via blockedcar

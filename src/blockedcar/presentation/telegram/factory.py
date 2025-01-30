@@ -9,7 +9,11 @@ from dishka.integrations.aiogram import setup_dishka
 
 from nats.js import JetStreamContext
 
-from blockedcar.adapters.fsm.storage.nats import NatsBucketManager
+from blockedcar.adapters.fsm.storage.nats import (
+    DefaultKeyBuilder,
+    NatsBucketManager,
+    NatsStorage,
+)
 
 from blockedcar.main.configuration.schemas import BotConfig
 from blockedcar.presentation.telegram.dialogs import get_dialogs
@@ -27,10 +31,12 @@ class DispatcherProvider(Provider):
     scope = Scope.APP
 
     @provide
-    def create_storage(
-        self, jetstream: JetStreamContext, bucket_manager: NatsBucketManager
-    ) -> BaseStorage:
-        return MemoryStorage()
+    async def create_storage(self, jetstream: JetStreamContext) -> BaseStorage:
+        bucket_manager = NatsBucketManager(jetstream)
+        await bucket_manager.create_buckets()
+        return NatsStorage(
+            bucket_manager, key_builder=DefaultKeyBuilder(with_destiny=True)
+        )
 
     @provide
     def create_dispatcher(

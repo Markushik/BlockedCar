@@ -1,7 +1,15 @@
 from aiogram.types import ContentType, Message
 from aiogram_dialog import Dialog, Window
 from aiogram_dialog.widgets.input import MessageInput
-from aiogram_dialog.widgets.kbd import Calendar, Column, Counter, Group, Row, Button, Next
+from aiogram_dialog.widgets.kbd import (
+    Button,
+    Calendar,
+    Column,
+    Counter,
+    Group,
+    Next,
+    Row,
+)
 from aiogram_dialog.widgets.text import Const, Format
 
 from .getters import write_data_getter
@@ -10,9 +18,9 @@ from .handlers import (
     add_departure_time_handler,
     add_licence_plate_handler,
     add_photo_handler,
-    on_select_date,
     on_finish,
     on_rewrite,
+    on_select_date,
 )
 from .states import BlockMenu
 
@@ -29,16 +37,16 @@ def block_menu() -> Dialog:
             state=BlockMenu.LICENSE_PLATE,
         ),
         Window(
-            Const(
-                "<b>🗓️ Выберите дату</b> своего <b>отдъезда:</b>"
-            ),
+            Const("<b>🗓️ Выберите дату</b> своего <b>отдъезда:</b>"),
             Calendar(id="calendar", on_click=on_select_date),
             parse_mode="HTML",
             state=BlockMenu.DEPARTURE_DATE,
         ),
         Window(
-            Const("<b>🕓 Введите время</b> планируемого <b>выезда:</b>\n\n"
-                  "<b>Пример: </b> <code>8:15</code>"),
+            Const(
+                "<b>🕓 Введите время</b> планируемого <b>выезда:</b>\n\n"
+                "<b>Пример: </b> <code>8:15</code>"
+            ),
             MessageInput(add_departure_time_handler, content_types=[ContentType.TEXT]),
             parse_mode="HTML",
             state=BlockMenu.DEPARTURE_TIME,
